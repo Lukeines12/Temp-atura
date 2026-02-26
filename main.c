@@ -5,39 +5,37 @@
 #include "freertos/task.h"
 #include "driver/gpio.h"
 
+int t = 10;
 
 void app_main(void)
 {
-  gpio_set_direction (2,GPIO_MODE_OUTPUT);
+  gpio_set_direction(2,GPIO_MODE_OUTPUT);
+
     // Inicializa a semente do gerador
     srand((unsigned int) time(NULL));
 
-    while (1)
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
+
+   for(t=5; t>=0; t--)
+  {
+    printf("%d\n",t);
+    vTaskDelay(300 / portTICK_PERIOD_MS);
+  }
+
+
+     while (50)
     {
         // Intervalo desejado
         int min = 0;
-        int max = 100;
-        int t > 40;
+        int max = 10;
 
         // Fórmula para intervalo personalizado
         int numero = (rand() % (max - min + 1)) + min;
+        printf("Número aleatório entre 0 e 100: %d\n", numero);
+        if (numero>7)  gpio_set_level(2,1);
+        if (numero<5)  gpio_set_level(2,0);
+        vTaskDelay(pdMS_TO_TICKS(3000));
 
-        printf("Temperatura: %d°\n", numero);
-        if (numero>=40) printf ("Ta quentinho \n");
-         if (numero<=39) printf("Cabo o frio \n");
-         if (numero>=40) gpio_set_level (2,1);
-         if (numero<=39) gpio_set_level (2,0);
-
-         int t (numero>=40) = (t++);
-
-         while (t > 0) {
-printf("Contagem Regressiva: %d\n", t);
-    t--; //resultado = resultado -1
-
-    if (t < 0) gpio_set_level (2,1);
-    if (t == 0) printf ("Explodiu \n");
-    vTaskDelay(1000 / portTICK_PERIOD_MS);
-  }
-}
-        vTaskDelay(pdMS_TO_TICKS(2000));
+        
     }
+}
